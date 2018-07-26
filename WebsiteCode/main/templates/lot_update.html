@@ -1,0 +1,24 @@
+# extends 'base.html'
+# import 'macro/forms.html' as forms
+
+# block content
+  <div class="page-header">
+    <h1>{{title}}</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <form method="POST" action=".">
+        <fieldset>
+          {{form.csrf_token}}
+          {{forms.text_field(form.defaultPermissions)}}
+          {{forms.text_field(form.currentPermissions)}}
+          {{forms.text_field(form.latitude)}}
+          {{forms.text_field(form.longitude)}}
+          <button type="submit" class="btn btn-primary btn-block">
+            Update Lot
+          </button>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+# endblock

@@ -1,0 +1,48 @@
+# extends 'base.html'
+
+# block content
+  <div class="page-header">
+    <h1>{{space_db.key.parent().parent().id()}}</h1>
+    <h2>{{space_db.key.parent().id()}}</h2>
+    <h3>{{space_db.key.id()}}</h3>
+  </div>
+
+  <table class="table table-bordered">
+    <thead>
+        <tr>
+          <th>TowerID</th>
+          <th>Occupied</th>
+          <th>Permissions</th>
+          <th>Battery</th>
+          <th>Errors</th>
+        </tr>
+      </thead>
+    <tbody>
+        <tr>
+          <td>{{space_db.towerId}}</td>
+          <td>{{space_db.occupied}}</td>
+          <td>{{space_db.permissions}}</td>
+          <td>{{space_db.battery}}</td>
+          <td>{{space_db.errors}}</td>
+        </tr>
+    </tbody>
+
+    <thead>
+      <tr>
+        <th>Log</th>
+      </tr>
+    </thead>
+    <tbody>
+      # for i in range(0, length)
+      <tr>
+        <td>{{space_db.log[i]}}</td>
+      </tr>
+      # endfor
+    </tbody>
+
+  </table>
+
+  <p>
+    <a href="{{url_for('space_update', campus_id=space_db.key.parent().parent().id(), lot_id=space_db.key.parent().id(), space_id=space_db.key.id())}}">Update Space {{space_db.key.id()}}</a>
+  </p>
+# endblock

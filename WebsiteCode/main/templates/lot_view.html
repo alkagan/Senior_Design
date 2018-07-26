@@ -1,0 +1,150 @@
+# extends 'base.html'
+# block content
+
+<!-- Below is code taken from a template to generate the chart.
+     Currently the labels are static but will be changed to dynamic
+     in the future.
+-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+<div style="width:100%;">
+  <canvas id="myChart" width="1150" height="400"></canvas>
+</div>
+
+<script>
+var ctx = document.getElementById("myChart").getContext('2d');
+
+
+var ctx = document.getElementById('myChart');
+
+var chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: makeLabels().labels,
+    datasets: [{
+      type: 'line',
+      label: 'Available Spots in ' + '{{lot_db.key.id()}}',
+      lineTension: 0,
+      data: makeBubbles(),
+      backgroundColor: "rgba(255,0,0, .7)",
+      borderColor: "transparent"
+    }]
+  },
+  options: {
+    scales: {
+      xAxes: [{
+        type: 'linear',
+        position: 'bottom',
+        ticks: {
+          autoSkip: true,
+          max: 24,
+          min: 0
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0
+        }
+      }]
+    }
+  }
+});
+
+function makeLabels() {
+  let tempArray = {{hourMinute|tojson}};
+  let arr = [];
+  let i=0;
+  for (i=0; i<{{length}}; i++){
+    arr.push(tempArray[i]);
+  }
+
+  let newarr = arr.map(item => ({ x: item, y: item }));
+  return {
+    labels: newarr,
+    array: arr
+  };
+};
+
+function makeBubbles() {
+  let tempArray = {{event|tojson}};
+  let tempArray2 = {{hourMinute|tojson}};
+
+  let arr = [{{total}}];
+  let arr2 = [0];
+  let i=0;
+  let numberOfCars = 0;
+  for (i=0; i<={{length}}; i++){
+    arr.push({{lot_db.totalSpaces}} - numberOfCars);
+    if(tempArray[i] == "I"){
+      numberOfCars++;
+    } else if(tempArray[i] == "O"){
+      numberOfCars--;
+    }
+    arr2.push(tempArray2[i]);
+  }
+
+  arr = arr.map(function(item, i) {
+    return {x: arr2[i], y:arr[i]}
+  });
+  console.log(arr);
+  return arr;
+};
+
+// Not yet used
+// setTimeout(makeBubbles, 10);
+// setTimeout(makeLabels, 10);
+
+</script>
+
+  <div class="page-header">
+    <h1>{{lot_db.key.parent().id()}}</h1>
+    <h2>{{lot_db.key.id()}} is {{percentage}}% full</h2>
+  </div>
+
+  <table class="table table-bordered">
+    <thead>
+        <tr>
+          <th>Default Permissions</th>
+          <th>Current Permissions</th>
+          <th>Total Spaces</th>
+          <th>Empty Spaces</th>
+          <th>Percentage Full</th>
+        </tr>
+      </thead>
+    <tbody>
+        <tr>
+          <td>{{lot_db.defaultPermissions}}</td>
+          <td>{{lot_db.currentPermissions}}</td>
+          <td>{{lot_db.totalSpaces}}</td>
+          <td>{{lot_db.emptySpaces}}</td>
+          <td>{{percentage}}</td>
+        </tr>
+    </tbody>
+  </table>
+
+  <table class="table table-bordered">
+      <thead>
+          <tr>
+            <th>Log</th>
+          </tr>
+        </thead>
+      <tbody>
+          <tr>
+            <td>{{lot_db.log}}</td>
+          </tr>
+      </tbody>
+    </table>
+
+  <p>
+    <a href="{{url_for('lot_update', lot_id=lot_db.key.id(), campus_id=lot_db.key.parent().id())}}">Update {{lot_db.key.id()}} Information</a>
+  </p>
+   
+  <p>
+    <a href="{{url_for('space_create', lot_id=lot_db.key.id(), campus_id=lot_db.key.parent().id())}}">Create Space(s) for {{lot_db.key.id()}}</a>
+  </p>
+
+  <p>
+    <a href="{{url_for('lot_list')}}">Back</a>
+  </p>
+
+# endblock

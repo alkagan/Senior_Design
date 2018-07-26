@@ -1,0 +1,39 @@
+# extends 'base.html'
+
+# block content
+  <div class="page-header">
+    <h1>{{title}}</h1>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Campus</th>
+        <th>Lot</th>
+        <th>Space</th>
+        <th>Tower ID</th>
+        <th>Occupied</th>
+        <th>Permissions</th>
+        <th>Battery</th>
+        <th>Errors</th>
+        <th>Time of Creation</th>
+      </tr>
+    </thead>
+    <tbody>
+      # for i in range(0, space_dbs|length)
+        <tr>
+          <td>{{campusNames[i]}}</td>
+          <td>{{lotNames[i]}}</td>
+          <td>
+            <a href="{{url_for('space_view', campus_id=space_dbs[i].key.parent().parent().id(), lot_id=space_dbs[i].key.parent().id(), space_id=space_dbs[i].key.id())}}">{{space_dbs[i].key.id()}}</a>
+            </td>
+          <td>{{space_dbs[i].towerId}}</td>
+          <td>{{space_dbs[i].occupied}}</td>
+          <td>{{space_dbs[i].permissions}}</td>
+          <td>{{space_dbs[i].battery}}</td>
+          <td>{{space_dbs[i].errors}}</td>
+          <td>{{space_dbs[i].dateTime}}</td>
+        </tr>
+      # endfor
+    </tbody>
+  </table>
+# endblock

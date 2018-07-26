@@ -1,0 +1,46 @@
+# extends 'base.html'
+
+# block content
+  <div class="page-header">
+    <h1>{{campus_db.key.id()}} Campus Information</h1>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+        <tr>
+          <th>Total Lots</th>
+          <th>Total Spaces</th>
+          <th>Empty Spaces</th>
+          <th>Percentage Empty Spaces</th>
+          <th>Date Created</th>
+          <th>Date Modified</th>
+          <th>DateTime</th>
+        </tr>
+      </thead>
+    <tbody>
+        <tr>
+          <td>
+            <a href="{{url_for('lot_list')}}">{{campus_db.totalLots}}</a>
+          </td>
+          <td>{{campus_db.totalSpaces}}</td>
+          <td>{{campus_db.emptySpaces}}</td>
+          <td>{{percentage}}</td>
+          <td>{{campus_db.created}}</td>
+          <td>{{campus_db.modified}}</td>
+          <td>{{campus_db.dateTime}}</td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p>
+    <a href="{{url_for('campus_update', campus_id=campus_db.key.id())}}">Update Campus Information</a>
+  </p>
+
+  <p>
+    <a href="{{url_for('lot_create', campus_id=campus_db.key.id())}}">Create a Lot for {{campus_db.key.id()}}</a>
+  </p>
+
+  <p>
+    <a href="{{url_for('campus_list')}}">Back</a>
+  </p>
+  
+# endblock

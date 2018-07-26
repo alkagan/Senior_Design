@@ -1,0 +1,38 @@
+# extends 'base.html'
+
+# block content
+  <div class="page-header">
+    <h1>{{title}}</h1>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Campus</th>
+        <th>Lot</th>
+        <th>Default Permissions</th>
+        <th>Current Permissions</th>
+        <th>Total Spaces</th>
+        <th>Empty Spaces</th>
+        <th>Lat</th>
+        <th>Long</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--# for lot_db in lot_dbs-->
+      # for i in range(0, lot_dbs|length)
+        <tr>
+          <td>{{campusNames[i]}}</td>
+          <td> 
+            <a href="{{url_for('lot_view', campus_id=lot_dbs[i].key.parent().id(), lot_id=lot_dbs[i].key.id())}}">{{lot_dbs[i].key.id()}}</a>
+            </td>
+          <td>{{lot_dbs[i].defaultPermissions}}</td>
+          <td>{{lot_dbs[i].currentPermissions}}</td>
+          <td>{{lot_dbs[i].totalSpaces}}</td>
+          <td>{{lot_dbs[i].emptySpaces}}</td>
+          <td>{{lot_dbs[i].latitude}}</td>
+          <td>{{lot_dbs[i].longitude}}</td>
+        </tr>
+      # endfor
+    </tbody>
+  </table>
+# endblock

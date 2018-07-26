@@ -1,0 +1,40 @@
+# extends 'base.html'
+
+# block content
+  <div class="page-header">
+    <h1>{{title}}</h1>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Campus</th>
+        <th>Total Lots</th>
+        <th>Total Spaces</th>
+        <th>Empty Spaces</th>
+        <th>Created</th>
+        <th>Modified</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--# for campus_db in campus_dbs-->
+      # for i in range(0, campus_dbs|length)
+        <tr>
+          <td>
+            <a href="{{url_for('campus_view', campus_id=campus_dbs[i].key.id())}}">{{campus_dbs[i].key.id()}}
+            </a>
+          </td>
+          <td>{{campus_dbs[i].totalLots}}</td>
+          <td>{{campus_dbs[i].totalSpaces}}</td>
+          <td>{{campus_dbs[i].emptySpaces}}</td>
+          <td>{{campus_dbs[i].created}}</td>
+          <td>{{campus_dbs[i].modified}}</td>
+        </tr>
+      # endfor
+    </tbody>
+  </table>
+
+  <p>
+    <a href="{{url_for('campus_create')}}">Create</a>
+  </p>
+
+# endblock
